@@ -1,6 +1,5 @@
-// screens/LoginScreen.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({ navigation }) {
@@ -18,11 +17,11 @@ export default function LoginScreen({ navigation }) {
       if (userData) {
         const user = JSON.parse(userData);
         if (user.senha === senha) {
-          // Se o usuário já preencheu o questionário, vai para a tela principal
+          await AsyncStorage.setItem('currentUserEmail', email);
+
           if (user.questionarioCompleto) {
             navigation.replace('Main');
           } else {
-            // Caso contrário, vai para o questionário
             navigation.replace('Questionario', { userEmail: email });
           }
         } else {
@@ -37,40 +36,37 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image
+        source={require('../assets/logo-variant2.png')}
+        style={styles.logo}
+      />
+
       <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#ccc"
-        onChangeText={setEmail}
-        value={email}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        placeholderTextColor="#ccc"
-        secureTextEntry
-        onChangeText={setSenha}
-        value={senha}
-      />
+      <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#ccc" onChangeText={setEmail} value={email} keyboardType="email-address" autoCapitalize="none"/>
+      <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#ccc" secureTextEntry onChangeText={setSenha} value={senha}/>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
         <Text style={styles.link}>Criar conta</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#1F1F1F', justifyContent: 'center', padding: 20 },
-  title: { color: '#FFFFFF', fontSize: 32, marginBottom: 25, textAlign: 'center', fontWeight: 'bold' },
-  input: { backgroundColor: '#121212', color: '#FFFFFF', padding: 15, borderRadius: 8, marginBottom: 15, fontSize: 16 },
-  button: { backgroundColor: '#FFD700', padding: 15, borderRadius: 8, marginTop: 10 },
-  buttonText: { color: '#121212', textAlign: 'center', fontWeight: 'bold', fontSize: 16 },
-  link: { color: '#FFD700', marginTop: 20, textAlign: 'center', fontSize: 16 },
+  container: { flexGrow: 1, backgroundColor: '#1F1F1F', justifyContent: 'center', padding: 20 },
+  logo: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginBottom: 30,
+  },
+  title: { color: '#FFFFFF', fontSize: 32, marginBottom: 25, textAlign: 'center', fontFamily: 'Montserrat-Bold' },
+    input: { backgroundColor: '#121212', color: '#FFFFFF', padding: 15, borderRadius: 8, marginBottom: 15, fontSize: 16, fontFamily: 'Montserrat-Regular' },
+    button: { backgroundColor: '#FFD700', padding: 15, borderRadius: 8, marginTop: 10 },
+    buttonText: { color: '#121212', textAlign: 'center', fontFamily: 'Montserrat-Bold', fontSize: 16 },
+    link: { color: '#FFD700', marginTop: 20, textAlign: 'center', fontSize: 16, fontFamily: 'Montserrat-Regular' },
 });
