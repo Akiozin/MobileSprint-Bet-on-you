@@ -49,6 +49,8 @@ npm install react-native-paper
 npm install react-native-vector-icons
 npm install react-native-chart-kit
 npm install react-native-svg
+npm install @react-navigation/bottom-tabs
+npm install lucide-react-native react-native-svg
 ```
 
 ---

@@ -1,4 +1,3 @@
-// screens/EarningsScreen.js
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';

@@ -3,8 +3,9 @@ import { View, StyleSheet, Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { LayoutDashboard, History, TrendingUp } from 'lucide-react-native';
 
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
@@ -15,7 +16,7 @@ import EarningsScreen from './screens/EarningsScreen';
 import InvestScreen from './screens/InvestScreen';
 
 const Stack = createNativeStackNavigator();
-const Tab = createMaterialTopTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const CustomHeader = () => {
   return (
@@ -30,20 +31,37 @@ const CustomHeader = () => {
 
 function MainTabs() {
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
       <CustomHeader />
       <Tab.Navigator
-        screenOptions={{
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarShowLabel: false,
           tabBarActiveTintColor: '#FFD700',
           tabBarInactiveTintColor: '#FFFFFF',
-          tabBarStyle: { backgroundColor: '#121212' },
-          tabBarIndicatorStyle: { backgroundColor: '#FFD700' },
-          tabBarLabelStyle: {
-            fontFamily: 'Montserrat-Bold',
-            textTransform: 'capitalize',
-            fontSize: 14,
+          tabBarStyle: {
+            backgroundColor: '#121212',
+            borderTopWidth: 0,
+            elevation: 0,
+            height: 80,
+            paddingTop: 10,
           },
-        }}>
+          tabBarIcon: ({ focused, color, size }) => {
+            let IconComponent;
+            const iconSize = focused ? 30 : 26;
+
+            if (route.name === 'Resumo') {
+              IconComponent = LayoutDashboard;
+            } else if (route.name === 'Histórico') {
+              IconComponent = History;
+            } else if (route.name === 'Rendimento') {
+              IconComponent = TrendingUp;
+            }
+
+            return <IconComponent color={color} size={iconSize} />;
+          },
+        })}
+      >
         <Tab.Screen name="Resumo" component={SummaryScreen} />
         <Tab.Screen name="Histórico" component={HistoryScreen} />
         <Tab.Screen name="Rendimento" component={EarningsScreen} />
