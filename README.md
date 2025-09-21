@@ -88,3 +88,10 @@ npm install
    # Para iOS
    npx react-native run-ios
    ```
+
+## 👥 Integrantes
+
+- Açussena Macedo Mautone – RM: 552568
+- Fabrício Saavedra – RM: 97631
+- Guilherme Akio – RM: 98582
+- Guilherme Morais - RM: 551981
